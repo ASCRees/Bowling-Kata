@@ -11,5 +11,7 @@
 
         public void InitializeGameForPlayer(string playersName);
         public void RunGame();
+        public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber);
+
     }
 }

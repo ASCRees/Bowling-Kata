@@ -31,7 +31,11 @@
             }
         }
 
-        public Int32? FirstScore { 
+        public Int32? FirstScore { get; set; }
+        public Int32? SecondScore { get; set; }
+        public bool FrameTotal { get; }
+
+        public Int32? FirstPins { 
             get {
                     return firstScore;
                 }
@@ -50,7 +54,7 @@
 
         public bool FirstBowl { get; set; }
 
-        public Int32? SecondScore
+        public Int32? SecondPins
         {
             get
             {
@@ -91,7 +95,7 @@
         { 
             get
             {
-                return (FirstScore < 10 && (FirstScore + SecondScore) == 10);
+                return (FirstPins < 10 && (FirstPins + SecondPins) == 10);
             } 
         }
 
@@ -99,7 +103,7 @@
         {
             get
             {
-                return (FirstScore ==10);
+                return (FirstPins ==10);
             }
         }
 
@@ -107,7 +111,7 @@
         {
             get
             {
-                return (FirstScore != null && (IsStrike || SecondScore != null));
+                return (FirstPins != null && (IsStrike || SecondPins != null));
             }
         }
 

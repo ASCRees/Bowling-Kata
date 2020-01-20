@@ -41,7 +41,7 @@ namespace BowlingScoring.UnitTests
         public void Check_Current_Score_Gets_Set()
         {
             //Act
-            bowlingscore.SetScore(5);
+            bowlingscore.SetScore(5,true);
             //Assert
             Assert.IsNotNull(bowlingscore.CurrentScore == 5);
         }

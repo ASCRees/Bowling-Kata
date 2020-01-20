@@ -17,8 +17,9 @@
 
         public int CurrentScore { get; set; }
 
-        public void SetScore(int currScore)
+        public void SetScore(Int32 currScore, bool IsFirstBowl)
         {
+
             CurrentScore = currScore;
         }
     }

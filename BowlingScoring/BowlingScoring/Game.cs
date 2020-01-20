@@ -9,6 +9,7 @@ namespace BowlingScoring
 {
     public class Game:IGame
     {
+
         public List<IPlayersGame> PlayersGames { get; set; }
 
         public Game()
@@ -35,7 +36,29 @@ namespace BowlingScoring
         }
         public void RunGame()
         {
+            Int32 currentFrameNumber = 0;
+            bool gameIsNotComplete = true;
 
+            while (gameIsNotComplete)
+            {
+                foreach (IPlayersGame playerGame in PlayersGames)
+                {
+                    if (currentFrameNumber == 9)
+                    {
+                        if (!CheckPlayerIsComplete(playerGame, currentFrameNumber))
+                        {
+
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+        public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber )
+        {
+            return playerGame.PlayersFrames[currentFrameNumber].IsComplete;
         }
     }
 }

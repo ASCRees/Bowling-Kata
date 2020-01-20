@@ -31,9 +31,9 @@
         public void Check_Frame_First_Score_Value_Exists()
         {
             //Act
-            bowlingFrame.FirstScore = 7;
+            bowlingFrame.FirstPins = 7;
             //Assert
-            Assert.IsTrue(bowlingFrame.FirstScore == 7);
+            Assert.IsTrue(bowlingFrame.FirstPins == 7);
         }
 
         [Test]
@@ -41,7 +41,7 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(()=>bowlingFrame.FirstScore = 11);
+            Assert.Throws<ArgumentOutOfRangeException>(()=>bowlingFrame.FirstPins = 11);
         }
 
         [Test]
@@ -49,7 +49,17 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstScore = -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = -1);
+        }
+
+        [Test]
+        public void Check_Frame_First_Pins_Set_Values_For_Valid_Valid()
+        {
+            //Act
+            bowlingFrame.FirstPins = 9;
+
+            //Assert
+            Assert.AreEqual(bowlingFrame.FirstPins, 9);
         }
 
         [Test]
@@ -75,7 +85,7 @@
         public void Check_Frame_Is_Strike()
         {
             //Act
-            bowlingFrame.FirstScore=10;
+            bowlingFrame.FirstPins=10;
             //Assert
             Assert.IsTrue(bowlingFrame.IsStrike);
         }
@@ -84,7 +94,7 @@
         public void Check_Frame_Is_Not_Strike()
         {
             //Act
-            bowlingFrame.FirstScore = 9;
+            bowlingFrame.FirstPins = 9;
             //Assert
             Assert.IsFalse(bowlingFrame.IsStrike);
         }
@@ -93,9 +103,9 @@
         public void Check_Frame_Is_Spare()
         {
             //Act
-            bowlingFrame.FirstScore = 8;
+            bowlingFrame.FirstPins = 8;
             bowlingFrame.FirstBowl = false;
-            bowlingFrame.SecondScore = 2;
+            bowlingFrame.SecondPins = 2;
             //Assert
             Assert.IsTrue(bowlingFrame.IsSpare);
         }
@@ -104,9 +114,9 @@
         public void Check_Frame_Is_Not_Spare()
         {
             //Act
-            bowlingFrame.FirstScore = 8;
+            bowlingFrame.FirstPins = 8;
             bowlingFrame.FirstBowl = false;
-            bowlingFrame.SecondScore = 1;
+            bowlingFrame.SecondPins = 1;
             //Assert
             Assert.IsFalse(bowlingFrame.IsSpare);
         }
@@ -116,7 +126,7 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondScore = 11);
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = 11);
         }
 
         [Test]
@@ -124,7 +134,7 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondScore = 11, "Score can only be between 0 and 10");
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = 11, "Score can only be between 0 and 10");
         }
 
         [Test]
@@ -132,7 +142,17 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondScore = -1, "Score can only be between 0 and 10");
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = -1, "Score can only be between 0 and 10");
+        }
+
+        [Test]
+        public void Check_Frame_Second_Pins_Set_Values_For_Valid_Valid()
+        {
+            //Act
+            bowlingFrame.SecondPins = 9;
+
+            //Assert
+            Assert.AreEqual(bowlingFrame.SecondPins, 9);
         }
 
         [Test]
@@ -149,9 +169,9 @@
         public void Check_Frame_SubTotal_Is_Sum_Of_First_And_SecondScore()
         {
             //Act
-            bowlingFrame.FirstScore = 8;
+            bowlingFrame.FirstPins = 8;
             bowlingFrame.FirstBowl = false;
-            bowlingFrame.SecondScore = 1;
+            bowlingFrame.SecondPins = 1;
 
             //Assert
             Assert.AreEqual(bowlingFrame.SubTotal, 9);
@@ -177,11 +197,11 @@
         {
             //Act
             bowlingFrame.FirstBowl = true;
-            bowlingFrame.FirstScore = firstScore;
+            bowlingFrame.FirstPins = firstScore;
             if (secondScore != null)
             {
                 bowlingFrame.FirstBowl = false;
-                bowlingFrame.SecondScore = Convert.ToInt32(secondScore);
+                bowlingFrame.SecondPins = Convert.ToInt32(secondScore);
             }
 
             //Assert
