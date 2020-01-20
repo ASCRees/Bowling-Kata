@@ -1,17 +1,17 @@
-﻿using BowlingScoring.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BowlingScoring
+﻿namespace BowlingScoring
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using BowlingScoring.Interfaces;
+
     public class Frame:IFrame
     {
         Int32 frameNumber = 1;
-        Int32 firstScore = 0;
-        Int32 secondScore = 0;
+        Int32? firstScore;
+        Int32? secondScore;
 
         public Int32 FrameNumber {
             get
@@ -21,7 +21,7 @@ namespace BowlingScoring
             set
             {
 
-                if (value > 1 || value < 11)
+                if (value < 1 || value > 11)
                 {
                     throw new ArgumentOutOfRangeException("Frame Number can only be between 1 and 11");
                 }
@@ -31,7 +31,7 @@ namespace BowlingScoring
             }
         }
 
-        public Int32 FirstScore { 
+        public Int32? FirstScore { 
             get {
                     return firstScore;
                 }
@@ -50,7 +50,7 @@ namespace BowlingScoring
 
         public bool FirstBowl { get; set; }
 
-        public Int32 SecondScore
+        public Int32? SecondScore
         {
             get
             {
@@ -82,13 +82,35 @@ namespace BowlingScoring
         {
             get
             {
-                return firstScore + secondScore;
+                return Convert.ToInt32(firstScore) + Convert.ToInt32(secondScore);
             }
         }
 
 
-        public bool IsSpare { get; set; }
-        public bool IsStrike { get; set; }
+        public bool IsSpare 
+        { 
+            get
+            {
+                return (FirstScore < 10 && (FirstScore + SecondScore) == 10);
+            } 
+        }
+
+        public bool IsStrike
+        {
+            get
+            {
+                return (FirstScore ==10);
+            }
+        }
+
+        public bool IsComplete 
+        {
+            get
+            {
+                return (FirstScore != null && (IsStrike || SecondScore != null));
+            }
+        }
+
 
     }
 }

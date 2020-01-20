@@ -24,5 +24,39 @@ namespace BowlingScoring.UnitTests
             //Assert
             Assert.IsNotNull(playersGame);
         }
+
+        [Test]
+        public void Verify_Players_Name_Is_Set()
+        {
+            //Act
+            playersGame.Name = "John";
+
+            //Assert
+            Assert.AreEqual(playersGame.Name, "John");
+        }
+
+        [Test]
+        public void Verify_Players_Set_Of_Frames_Built()
+        {
+            //Act
+            playersGame.BuildPlayersFrames();;
+
+            //Assert
+            Assert.AreEqual(playersGame.PlayersFrames.Count,10);
+        }
+
+        [Test]
+        public void Verify_Players_Add_Bonus_Frame()
+        {
+            //Arrange
+            playersGame.BuildPlayersFrames();
+
+            //Act
+            playersGame.AddBonusFrame();
+
+            //Assert
+            Assert.AreEqual(playersGame.PlayersFrames.Count, 11);
+        }
+
     }
 }

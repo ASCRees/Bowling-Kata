@@ -13,7 +13,10 @@ namespace BowlingScoring.UnitTests
         public void Setup()
         {
             //Arrange
-            bowlingscore = new Score();
+            bowlingscore = new Score(new Frame()
+            {
+                FrameNumber = 1
+            });
         }
 
         [Test]
