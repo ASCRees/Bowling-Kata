@@ -1,9 +1,9 @@
 ﻿namespace BowlingScoring.UnitTests
 {
-    using NUnit.Framework;
     using System;
     using BowlingScoring;
     using BowlingScoring.Interfaces;
+    using NUnit.Framework;
 
     [TestFixture]
     public class FrameTests
@@ -28,6 +28,7 @@
         }
 
         [Test]
+        [Category("FirstPins")]
         public void Check_Frame_First_Score_Value_Exists()
         {
             //Act
@@ -37,6 +38,7 @@
         }
 
         [Test]
+        [Category("FirstPins")]
         public void Check_Frame_First_Score_Errors_For_Values_Greater_Than_Ten()
         {
             //Act
@@ -45,6 +47,7 @@
         }
 
         [Test]
+        [Category("FirstPins")]
         public void Check_Frame_First_Score_Errors_For_Values_Less_Than_Zero()
         {
             //Act
@@ -52,7 +55,8 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = -1);
         }
 
-        [Test]
+        [TestCase (Description ="FirstPins")]
+        [Category("FirstPins")]
         public void Check_Frame_First_Pins_Set_Values_For_Valid_Valid()
         {
             //Act
@@ -122,6 +126,7 @@
         }
 
         [Test]
+        [Category("SecondPins")]
         public void Check_Frame_Second_Score_Can_Be_Set()
         {
             //Act
@@ -130,6 +135,7 @@
         }
 
         [Test]
+        [Category("SecondPins")]
         public void Check_Frame_Second_Score_Errors_For_Values_Greater_Than_Ten()
         {
             //Act
@@ -138,6 +144,7 @@
         }
 
         [Test]
+        [Category("SecondPins")]
         public void Check_Frame_Second_Score_Errors_For_Values_Less_Than_Zero()
         {
             //Act
@@ -146,6 +153,7 @@
         }
 
         [Test]
+        [Category("SecondPins")]
         public void Check_Frame_Second_Pins_Set_Values_For_Valid_Valid()
         {
             //Act

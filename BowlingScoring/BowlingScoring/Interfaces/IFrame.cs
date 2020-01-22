@@ -18,7 +18,9 @@ namespace BowlingScoring.Interfaces
         public bool IsStrike { get; }
         public Int32 SubTotal { get; }
         public bool IsComplete { get; }
+        public Int32 BonusTotal { get; set; }
         public bool FrameTotal { get; }
+
 
     }
 }

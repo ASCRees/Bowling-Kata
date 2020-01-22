@@ -34,6 +34,7 @@ namespace BowlingScoring
             PlayersGames.Add(playersGame);
 
         }
+
         public void RunGame()
         {
             Int32 currentFrameNumber = 0;
@@ -54,6 +55,11 @@ namespace BowlingScoring
 
 
             }
+        }
+
+        public Int32 Bowl (Int32 pinsInPlay)
+        {
+            return new Random().Next(0, pinsInPlay);
         }
 
         public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber )

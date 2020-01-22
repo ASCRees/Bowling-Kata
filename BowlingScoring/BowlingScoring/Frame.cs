@@ -115,6 +115,8 @@
             }
         }
 
+        public Int32 BonusTotal { get; set; }
+
 
     }
 }

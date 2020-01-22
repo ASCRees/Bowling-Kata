@@ -107,5 +107,24 @@ namespace BowlingScoring.UnitTests
             //Assert
             bowlingGame.CheckPlayerIsComplete(bowlingGame.PlayersGames[0], 9);
         }
+
+        [TestCase(10)]
+        public void Verify_Bowl_Does_Not_Return_More_Than_Available_Pins(Int32 availablePins)
+        {
+            //Act 
+            //Assert
+            bowlingGame.Bowl(availablePins).Should().BeLessOrEqualTo(availablePins);
+        }
+
+        [TestCase(10,TestName = "Verify_Bowl_Returns_Between_Zero_And. 10 Pins")]
+        [TestCase(5, TestName = "Verify_Bowl_Returns_Between_Zero_And. 5 Pins")]
+        [TestCase(0, TestName = "Verify_Bowl_Returns_Between_Zero_And. 0 Pins")]
+        public void Verify_Bowl_Returns_Between_Zero_and_X_Pins(Int32 availablePins)
+        {
+            //Act
+            //Assert
+            bowlingGame.Bowl(availablePins).Should().BeInRange(0, availablePins, "because you can only knock down "+ availablePins+" pins");
+
+        }
     }
 }
