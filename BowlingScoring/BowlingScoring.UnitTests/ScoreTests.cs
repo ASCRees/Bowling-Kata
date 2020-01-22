@@ -72,5 +72,21 @@ namespace BowlingScoring.UnitTests
             playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.SecondPins).FirstOrDefault().Should().Be(score2);
         }
 
+        [Test]
+        public void Check_IsSpare_Set()
+        {
+            //Act
+            var frameNumber = 1;
+            var score1 = 9;
+            var score2 = 1;
+            var firstBowl = true;
+
+            bowlingscore.SetScore(score1, firstBowl, frameNumber);
+            bowlingscore.SetScore(score2, false, frameNumber);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.IsSpare).FirstOrDefault().Should().Be(true);
+        }
+
     }
 }
