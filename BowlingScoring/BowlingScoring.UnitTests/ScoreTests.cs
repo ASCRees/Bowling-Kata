@@ -88,5 +88,33 @@ namespace BowlingScoring.UnitTests
             playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.IsSpare).FirstOrDefault().Should().Be(true);
         }
 
+        [Test]
+        public void Check_IsStrike_Set()
+        {
+            //Act
+            var frameNumber = 1;
+            var score1 = 10;
+            var firstBowl = true;
+
+            bowlingscore.SetScore(score1, firstBowl, frameNumber);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.IsStrike).FirstOrDefault().Should().Be(true);
+        }
+
+        [Test]
+        public void Check_IsComplete_Set()
+        {
+            //Act
+            var frameNumber = 1;
+            var score1 = 10;
+            var firstBowl = true;
+
+            bowlingscore.SetScore(score1, firstBowl, frameNumber);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.IsComplete).FirstOrDefault().Should().Be(true);
+        }
+
     }
 }
