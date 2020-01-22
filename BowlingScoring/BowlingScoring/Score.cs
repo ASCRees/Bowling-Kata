@@ -1,19 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BowlingScoring.Interfaces;
-
-namespace BowlingScoring
+﻿namespace BowlingScoring
 {
-    public class Score:IScore
+    using BowlingScoring.Interfaces;
+    using System;
+
+    public class Score : IScore
     {
+        private IPlayersGame _playersGame;
+
+        public Score(IPlayersGame playersGame)
+        {
+            _playersGame = playersGame;
+        }
+
         public int CurrentScore { get; set; }
 
-        public void SetScore(int currScore)
+        public void SetScore(Int32 currScore, bool isFirstBowl, Int32 frameNumber)
         {
+            IFrame currentFrame = GetFrameForPlayer(frameNumber);
+
+            switch (isFirstBowl)
+            {
+                case true:
+                    currentFrame.FirstPins = currScore;
+
+                    // If the frame is at least the 2nd frame check the previous frame
+                    // if previous frame was a spare update the bonustotal with the currscore
+                    // if previous frame was a strike update the bonustotal with the currscore
+                    // If this is at least the 3rd frame then check the frame prior to that to
+                    // see if it was a strike also then update with the currscore
+
+                    if (frameNumber > 1)
+                    {
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber));
+                    }
+
+                    break;
+
+                case false:
+                    currentFrame.SecondPins = currScore;
+                    // If the current frame is at least the 2nd frame check the previous frame if it was a strike
+                    // update the total with the sub-total from this frame
+
+                    if (frameNumber > 1)
+                    {
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber));
+                    }
+
+                    break;
+            };
+
             CurrentScore = currScore;
         }
+
+        private void UpdatePreviousFrame(int currScore, int frameNumber, bool isFirstBowl, IFrame previousFrame)
+        {
+            if ((isFirstBowl && previousFrame.IsSpare) || previousFrame.IsStrike)
+            {
+                // Update the previous bonustotal
+                previousFrame.BonusTotal += currScore;
+
+                // If this is the first bowl and the previous frame had a strike check the one before.
+                if (isFirstBowl && previousFrame.IsStrike && frameNumber > 2)
+                {
+                    IFrame frameMinusTwo = GetFrameForPlayer(frameNumber - 2);
+                    if (frameMinusTwo != null && frameMinusTwo.IsStrike)
+                    {
+                        // Update the previous bonustotal
+                        frameMinusTwo.BonusTotal += currScore;
+                    }
+                }
+            }
+        }
+
+        private IFrame GetFrameForPlayer(int frameNumber)
+        {
+            return _playersGame.PlayersFrames[frameNumber - 1];
+        }
+
     }
 }

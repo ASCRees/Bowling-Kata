@@ -6,6 +6,6 @@ namespace BowlingScoring.Interfaces
     {
         public int CurrentScore { get; set; }
 
-        public void SetScore(int v);
+        public void SetScore(Int32 currScore, bool isFirstBowl, Int32 frameNumber);
     }
 }

@@ -1,4 +1,3 @@
-BowlingScoring/BowlingScoring/obj/project.assets.json
 BowlingScoring/BowlingScoring/obj/Debug/netcoreapp3.1/BowlingScoring.AssemblyInfo.cs
 BowlingScoring/BowlingScoring/obj/Debug/netcoreapp3.1/BowlingScoring.AssemblyInfoInputs.cache
 BowlingScoring/BowlingScoring/obj/Debug/netcoreapp3.1/BowlingScoring.assets.cache
@@ -126,3 +125,10 @@ BowlingScoring/BowlingScoring/obj/BowlingScoring.csproj.nuget.g.props
 BowlingScoring/BowlingScoring/obj/BowlingScoring.csproj.nuget.g.targets
 BowlingScoring/.vs/BowlingScoring/v16/TestStore/1/000-0000.testlog
 BowlingScoring/.vs/BowlingScoring/v16/TestStore/1/testlog.manifest
+BowlingScoring/.vs/BowlingScoring/DesignTimeBuild/.dtbcache
+BowlingScoring/BowlingScoring.UnitTests/StyleCop.Cache
+BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/FluentAssertions.dll
+BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/System.Configuration.ConfigurationManager.dll
+BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/System.Security.Cryptography.ProtectedData.dll
+BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
+BowlingScoring/BowlingScoring/StyleCop.Cache

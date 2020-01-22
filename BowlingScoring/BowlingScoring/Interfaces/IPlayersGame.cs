@@ -8,6 +8,11 @@ namespace BowlingScoring.Interfaces
 {
     public interface IPlayersGame
     {
+        public string Name { get; set; }
 
+        public List<IFrame> PlayersFrames { get; set; }
+
+        public void BuildPlayersFrames();
+        public void AddBonusFrame();
     }
 }
