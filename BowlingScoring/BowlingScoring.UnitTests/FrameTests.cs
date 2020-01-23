@@ -3,6 +3,7 @@
     using System;
     using BowlingScoring;
     using BowlingScoring.Interfaces;
+    using FluentAssertions;
     using NUnit.Framework;
 
     [TestFixture]
@@ -66,15 +67,6 @@
             Assert.AreEqual(bowlingFrame.FirstPins, 9);
         }
 
-        [Test]
-        public void Check_Frame_First_Score_Set_Values_For_Valid_Valid()
-        {
-            //Act
-            bowlingFrame.FirstScore = 9;
-
-            //Assert
-            Assert.AreEqual(bowlingFrame.FirstScore, 9);
-        }
 
         [Test]
         public void Check_Frame_Is_First_Bowl()
@@ -164,16 +156,6 @@
         }
 
         [Test]
-        public void Check_Frame_Second_Score_Set_Values_For_Valid_Valid()
-        {
-            //Act
-            bowlingFrame.SecondScore = 9;
-
-            //Assert
-            Assert.AreEqual(bowlingFrame.SecondScore, 9);
-        }
-
-        [Test]
         public void Check_Frame_SubTotal_Is_Sum_Of_First_And_SecondScore()
         {
             //Act
@@ -214,6 +196,55 @@
 
             //Assert
             return bowlingFrame.IsComplete;
+        }
+
+        [Test]
+        public void Check_IsBonusFrame()
+        {
+            //Act
+            bowlingFrame.IsBonusFrame = true;
+
+            //Assert
+            bowlingFrame.IsBonusFrame.Should().BeTrue();
+        }
+
+        [TestCase(0, null, ExpectedResult = true, TestName = "Check_IsBonusFrame_Complete. First bowl is 0")]
+        [TestCase(8, null, ExpectedResult = true, TestName = "Check_IsBonusFrame_Complete. First bowl is 8")]
+        [TestCase(10, null, ExpectedResult = false, TestName = "Check_IsBonusFrame_Complete. First bowl is 10, Second bowl is null")]
+        [TestCase(10, 5, ExpectedResult = true, TestName = "Check_IsBonusFrame_Complete. First bowl is 10, Second bowl is 5")]
+        public bool Check_IsBonusFrame_Complete(Int32? firstScore, Int32? secondScore)
+        {
+            //Act
+            bowlingFrame.IsBonusFrame = true;
+            bowlingFrame.FirstBowl = true;
+            bowlingFrame.FirstPins = firstScore;
+            bowlingFrame.FirstBowl = false;
+            bowlingFrame.SecondPins = secondScore;
+
+            //Assert
+            return bowlingFrame.IsComplete;
+        }
+
+        [Test]
+        public void Check_IsBonusFrame_FirstPins_Equal_Ten_IsNot_Spare()
+        {
+            //Act
+            bowlingFrame.IsBonusFrame = true;
+            bowlingFrame.FirstPins = 10;
+
+            //Assert
+            bowlingFrame.IsSpare.Should().BeFalse();
+        }
+
+        [Test]
+        public void Check_IsBonusFrame_FirstPins_Equal_Ten_IsSrike()
+        {
+            //Act
+            bowlingFrame.IsBonusFrame = true;
+            bowlingFrame.FirstPins = 10;
+
+            //Assert
+            bowlingFrame.IsStrike.Should().BeTrue();
         }
     }
 }

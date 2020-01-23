@@ -11,6 +11,7 @@ namespace BowlingScoring.Interfaces
         public string Name { get; set; }
 
         public List<IFrame> PlayersFrames { get; set; }
+        public Int32 PlayerTotal { get; }
 
         public void BuildPlayersFrames();
         public void AddBonusFrame();

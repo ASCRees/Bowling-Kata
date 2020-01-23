@@ -31,7 +31,7 @@
 
                     if (frameNumber > 1)
                     {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber));
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber-1));
                     }
 
                     break;
@@ -43,7 +43,12 @@
 
                     if (frameNumber > 1)
                     {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber));
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber-1));
+                    }
+
+                    if (!currentFrame.IsSpare)
+                    {
+                        currentFrame.FrameTotal = currentFrame.SubTotal;
                     }
 
                     break;
@@ -59,6 +64,11 @@
                 // Update the previous bonustotal
                 previousFrame.BonusTotal += currScore;
 
+                if (isFirstBowl && previousFrame.IsSpare)
+                {
+                    previousFrame.FrameTotal = previousFrame.SubTotal + previousFrame.BonusTotal;
+                }
+
                 // If this is the first bowl and the previous frame had a strike check the one before.
                 if (isFirstBowl && previousFrame.IsStrike && frameNumber > 2)
                 {
@@ -67,6 +77,7 @@
                     {
                         // Update the previous bonustotal
                         frameMinusTwo.BonusTotal += currScore;
+                        frameMinusTwo.FrameTotal = frameMinusTwo.SubTotal + frameMinusTwo.BonusTotal;
                     }
                 }
             }
