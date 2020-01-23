@@ -1,11 +1,26 @@
 ﻿namespace BowlingScoring
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using BowlingScoring.Interfaces;
     public class PlayersGame : IPlayersGame
     {
         public string Name { get; set; }
         public List<IFrame> PlayersFrames { get; set; }
+
+        public Int32 PlayerTotal { 
+            get { 
+                if (PlayersFrames.Count>0)
+                {
+                    return PlayersFrames.Sum(x => x.FrameTotal);
+                }
+                else
+                {
+                    return 0;
+                }
+               }
+        }
 
         public PlayersGame()
         {

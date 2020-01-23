@@ -73,7 +73,7 @@
                     {
                         throw new ArgumentOutOfRangeException("Score can only be between 0 and 10");
                     }
-                    if ((value + firstScore) > 10)
+                    if ((value + firstScore) > (IsBonusFrame? 20:10) )
                     {
                         throw new ArgumentOutOfRangeException("Total Score for the frame cannot be greater than 10");
                     }
@@ -111,12 +111,22 @@
         {
             get
             {
-                return (FirstPins != null && (IsStrike || SecondPins != null));
+                return (!IsBonusFrame &&
+                            (FirstPins != null && (IsStrike || SecondPins != null))
+                       )
+                       ||
+                       (IsBonusFrame && (
+                            (FirstPins != null && FirstPins<10)
+                            || 
+                            (FirstPins==10 && SecondPins != null)
+                            )
+                       );
             }
         }
 
         public Int32 BonusTotal { get; set; }
 
+        public bool IsBonusFrame { get; set; }
 
     }
 }

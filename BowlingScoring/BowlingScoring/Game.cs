@@ -11,10 +11,18 @@ namespace BowlingScoring
     {
 
         public List<IPlayersGame> PlayersGames { get; set; }
+        private IBowl _bowlingBall;
 
         public Game()
         {
+            _bowlingBall = new Bowl();
             PlayersGames = new List<IPlayersGame>();  
+        }
+
+        public Game(IBowl bowlingBall)
+        {
+            _bowlingBall = bowlingBall;
+            PlayersGames = new List<IPlayersGame>();
         }
 
         public void InitializeGameForPlayer(string playersName)
@@ -35,19 +43,26 @@ namespace BowlingScoring
 
         }
 
+        public Int32 RunBowl(Int32 remainingNumPins)
+        {
+
+            var pins = _bowlingBall.BowlBall(remainingNumPins);
+
+            return pins;
+        }
+
         public void RunGame()
         {
             Int32 currentFrameNumber = 0;
 
-            bool gameIsNotComplete = true;
-
-            while (gameIsNotComplete)
+            while (currentFrameNumber < 10)
             {
                 foreach (IPlayersGame playerGame in PlayersGames)
                 {
                     PlayPlayersGo(currentFrameNumber, playerGame);
 
                     AddAndPlayBonusFrame(currentFrameNumber, playerGame);
+
                 }
 
                 currentFrameNumber++;
@@ -72,7 +87,7 @@ namespace BowlingScoring
         {
             // Take bowl
 
-            var bowledPins = Bowl(pinsStillStanding);
+            var bowledPins = _bowlingBall.BowlBall(pinsStillStanding);
 
             pinsStillStanding = 10 - bowledPins;
 
@@ -85,16 +100,16 @@ namespace BowlingScoring
 
         private void AddAndPlayBonusFrame(int currentFrameNumber, IPlayersGame playerGame)
         {
-            if (currentFrameNumber == 9 && !CheckPlayerIsComplete(playerGame, currentFrameNumber))
+            if (currentFrameNumber == 9 && (playerGame.PlayersFrames[currentFrameNumber].IsStrike || playerGame.PlayersFrames[currentFrameNumber].IsSpare))
             {
                 // Add an extra frame
                 playerGame.AddBonusFrame();
 
-                PlayPlayersGo(currentFrameNumber, playerGame);
+                PlayPlayersGo(currentFrameNumber+1, playerGame);
             }
         }
 
-        public Int32 Bowl (Int32 pinsInPlay)
+        public Int32 Bowl(Int32 pinsInPlay)
         {
             return new Random().Next(0, pinsInPlay);
         }

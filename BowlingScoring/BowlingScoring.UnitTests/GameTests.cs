@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Moq;
 
 namespace BowlingScoring.UnitTests
 {
@@ -124,6 +125,84 @@ namespace BowlingScoring.UnitTests
             //Act
             //Assert
             bowlingGame.Bowl(availablePins).Should().BeInRange(0, availablePins, "because you can only knock down "+ availablePins+" pins");
+
+        }
+
+        [Test]
+        public void Verify_Perfect_Game()
+        {
+            //Arrange
+            var bowlMock = new Mock<IBowl>();
+            bowlMock.Setup(x => x.BowlBall(It.IsAny<Int32>())).Returns(10);
+
+            IGame bowlingGame = new Game(bowlMock.Object);
+            bowlingGame.InitializeGameForPlayer("John");
+            
+            //Act
+            bowlingGame.RunGame();
+            //Assert
+            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
+
+            //var test = bowlMock.Object.BowlBall(10);
+
+            //bowlingGame.Bowl = () => 10; 
+
+            //bowlingGame = new Game();
+            ////Act
+            //bowlingGame.InitializeGameForPlayer("John");
+
+            //var test2 = bowlingGame.RunBowl(10);
+
+
+
+            //var gameMock = new Mock<Game>() { CallBase = true }.As<IGame>();
+            ////var gameMock = new Mock<IGame>();
+            //gameMock.Setup(x => x.Bowl(It.IsAny<Int32>())).Returns(10);
+
+
+            //var gameMock = new Mock<IGame>();
+            //gameMock.Setup(x => x.Bowl(10)).Returns(10);
+
+            //var test = gameMock.Object.Bowl(10);
+            ////bowlingGame = new Game();
+            ////var test2 = gameMock.Object.Bowl(10);
+
+            //var test2 = gameMock.Object.RunBowl(10);
+
+            //gameMock.Object.InitializeGameForPlayer("John");
+
+            //var playersGame = gameMock.Object.PlayersGames;
+
+            //gameMock.Object.RunGame();
+
+            ////gameMock.Object.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
+
+
+            //string x = "Stop";
+
+            ////Arrange
+            //bowlingGame = new Game();
+            ////Act
+            //bowlingGame.InitializeGameForPlayer("John");
+
+            //var gameMock = new Mock<Game>().As<IGame>();
+            //gameMock.Setup(x => x.Bowl(It.IsAny<Int32>())).Returns(10);
+            //gameMock.CallBase = true;
+
+            //////        gameMock.Setup(m => m.SomeMethod(It.IsAny<int>())
+            //////.Returns((int x) => inst.SomeMethod(x));
+
+            //////var gameMock = Mock.Of<IGame>();
+            //////Mock.Get(gameMock).Setup(x => x.Bowl(10)).Returns(10);
+
+            //gameMock.Object.InitializeGameForPlayer("John");
+            //var test2 = gameMock.Object.Bowl(1);
+            //var test3 = gameMock.Object;
+
+            ////Act
+            //bowlingGame.RunGame();
+            ////Assert
+            //bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
 
         }
     }

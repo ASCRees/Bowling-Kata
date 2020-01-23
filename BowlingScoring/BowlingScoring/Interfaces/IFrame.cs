@@ -20,6 +20,7 @@ namespace BowlingScoring.Interfaces
         public bool IsComplete { get; }
         public Int32 BonusTotal { get; set; }
         public Int32 FrameTotal { get; set; }
+        public bool IsBonusFrame { get; set; }
 
 
     }
