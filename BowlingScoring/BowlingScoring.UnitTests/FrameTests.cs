@@ -66,15 +66,6 @@
             Assert.AreEqual(bowlingFrame.FirstPins, 9);
         }
 
-        [Test]
-        public void Check_Frame_First_Score_Set_Values_For_Valid_Valid()
-        {
-            //Act
-            bowlingFrame.FirstScore = 9;
-
-            //Assert
-            Assert.AreEqual(bowlingFrame.FirstScore, 9);
-        }
 
         [Test]
         public void Check_Frame_Is_First_Bowl()
@@ -161,16 +152,6 @@
 
             //Assert
             Assert.AreEqual(bowlingFrame.SecondPins, 9);
-        }
-
-        [Test]
-        public void Check_Frame_Second_Score_Set_Values_For_Valid_Valid()
-        {
-            //Act
-            bowlingFrame.SecondScore = 9;
-
-            //Assert
-            Assert.AreEqual(bowlingFrame.SecondScore, 9);
         }
 
         [Test]

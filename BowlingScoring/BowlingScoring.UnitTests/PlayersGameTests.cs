@@ -58,5 +58,25 @@ namespace BowlingScoring.UnitTests
             Assert.AreEqual(playersGame.PlayersFrames.Count, 11);
         }
 
+        [Test]
+        public void Verify_Players_Total_Fifteen()
+        {
+            //Arrange
+            playersGame.BuildPlayersFrames();
+
+            //Act
+            playersGame.PlayersFrames.Add(new Frame()
+            {
+                FirstPins = 5,
+                SecondPins=4,
+                FrameTotal=9
+            });
+
+            //
+
+            //Assert
+            Assert.AreEqual(playersGame.PlayersFrames.Count, 11);
+        }
+
     }
 }

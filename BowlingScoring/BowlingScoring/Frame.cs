@@ -31,9 +31,9 @@
             }
         }
 
-        public Int32? FirstScore { get; set; }
-        public Int32? SecondScore { get; set; }
-        public bool FrameTotal { get; }
+        //public Int32? FirstScore { get; set; }
+        //public Int32? SecondScore { get; set; }
+        public Int32 FrameTotal { get; set; }
 
         public Int32? FirstPins { 
             get {

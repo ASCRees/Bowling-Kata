@@ -38,22 +38,59 @@ namespace BowlingScoring
         public void RunGame()
         {
             Int32 currentFrameNumber = 0;
+
             bool gameIsNotComplete = true;
 
             while (gameIsNotComplete)
             {
                 foreach (IPlayersGame playerGame in PlayersGames)
                 {
-                    if (currentFrameNumber == 9)
-                    {
-                        if (!CheckPlayerIsComplete(playerGame, currentFrameNumber))
-                        {
+                    PlayPlayersGo(currentFrameNumber, playerGame);
 
-                        }
-                    }
+                    AddAndPlayBonusFrame(currentFrameNumber, playerGame);
                 }
 
+                currentFrameNumber++;
+            }
+        }
 
+        private void PlayPlayersGo(int currentFrameNumber, IPlayersGame playerGame)
+        {
+            var pinsStillStanding = 10;
+
+            var firstBowl = true;
+
+            while (!playerGame.PlayersFrames[currentFrameNumber].IsComplete)
+            {
+                pinsStillStanding = ScorePlayersBowl(currentFrameNumber, playerGame, pinsStillStanding, firstBowl);
+
+                firstBowl = false;
+            }
+        }
+
+        private int ScorePlayersBowl(int currentFrameNumber, IPlayersGame playerGame, int pinsStillStanding, bool firstBowl)
+        {
+            // Take bowl
+
+            var bowledPins = Bowl(pinsStillStanding);
+
+            pinsStillStanding = 10 - bowledPins;
+
+            // Score Pins
+            IScore bowlingscore = new Score(playerGame);
+
+            bowlingscore.SetScore(bowledPins, firstBowl, currentFrameNumber + 1);
+            return pinsStillStanding;
+        }
+
+        private void AddAndPlayBonusFrame(int currentFrameNumber, IPlayersGame playerGame)
+        {
+            if (currentFrameNumber == 9 && !CheckPlayerIsComplete(playerGame, currentFrameNumber))
+            {
+                // Add an extra frame
+                playerGame.AddBonusFrame();
+
+                PlayPlayersGo(currentFrameNumber, playerGame);
             }
         }
 

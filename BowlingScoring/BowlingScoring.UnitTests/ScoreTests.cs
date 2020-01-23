@@ -4,6 +4,7 @@ using System.Linq;
 using BowlingScoring;
 using BowlingScoring.Interfaces;
 using FluentAssertions;
+using System.Collections.Generic;
 
 namespace BowlingScoring.UnitTests
 {
@@ -18,8 +19,6 @@ namespace BowlingScoring.UnitTests
         [SetUp]
         public void Setup()
         {
-
-
             playersGame.BuildPlayersFrames();
             //Arrange
             bowlingscore = new Score(playersGame);
@@ -114,6 +113,166 @@ namespace BowlingScoring.UnitTests
 
             //Assert
             playersGame.PlayersFrames.Where(x => x.FrameNumber == frameNumber).Select(x => x.IsComplete).FirstOrDefault().Should().Be(true);
+        }
+
+        [Test]
+        public void Check_First_IsSpare_Second_No_Strike_Check_BonusTotal()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(5, true, firstframeNumber);
+            bowlingscore.SetScore(5, false, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(4, true, firstframeNumber+1);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.BonusTotal).FirstOrDefault().Should().Be(4);
+        }
+
+        [Test]
+        public void Check_First_IsSpare_Second_No_Strike_Check_FrameTotal()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(5, true, firstframeNumber);
+            bowlingscore.SetScore(5, false, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(4, true, firstframeNumber + 1);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(14);
+        }
+
+        [Test]
+        public void Check_First_IsSpare_Second_Is_Strike_Check_FrameTotal()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(5, true, firstframeNumber);
+            bowlingscore.SetScore(5, false, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(20);
+        }
+
+        [Test]
+        public void Check_First_IsStrike_Second_Is_Strike_Check_BonusTotal_Is_Ten()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(10, true, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.BonusTotal).FirstOrDefault().Should().Be(10);
+        }
+
+        [Test]
+        public void Check_First_IsStrike_Second_Is_Strike_Check_FrameTotal_Is_Zero()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(10, true, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(0);
+        }
+
+        [Test]
+        public void Check_First_IsStrike_Second_Is_Strike_And_Third_IsStrike_Check_FrameTotal_Is_Thirty()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(10, true, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Third Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 2);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(30);
+        }
+
+        [Test]
+        public void Check_First_IsStrike_Second_Is_Strike_And_Third_Five_Check_FrameTotal_Is_TwentyFive()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(10, true, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Third Frame
+            bowlingscore.SetScore(5, true, firstframeNumber + 2);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(25);
+        }
+
+        [Test]
+        public void Check_FrameTotal_Set_For_First_and_Second_Bowl_No_Spare()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(4, true, firstframeNumber);
+
+            //Act
+            bowlingscore.SetScore(5, false, firstframeNumber);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(9);
         }
 
     }
