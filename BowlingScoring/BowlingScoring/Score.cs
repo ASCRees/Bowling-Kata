@@ -31,7 +31,7 @@
 
                     if (frameNumber > 1)
                     {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber-1));
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber - 1), currentFrame.IsBonusFrame);
                     }
 
                     break;
@@ -43,7 +43,7 @@
 
                     if (frameNumber > 1)
                     {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber-1));
+                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber - 1), currentFrame.IsBonusFrame);
                     }
 
                     if (!currentFrame.IsSpare)
@@ -57,14 +57,14 @@
             CurrentScore = currScore;
         }
 
-        private void UpdatePreviousFrame(int currScore, int frameNumber, bool isFirstBowl, IFrame previousFrame)
+        private void UpdatePreviousFrame(int currScore, int frameNumber, bool isFirstBowl, IFrame previousFrame, bool isBonusFrame)
         {
             if ((isFirstBowl && previousFrame.IsSpare) || previousFrame.IsStrike)
             {
                 // Update the previous bonustotal
                 previousFrame.BonusTotal += currScore;
 
-                if (isFirstBowl && previousFrame.IsSpare)
+                if ((isFirstBowl && previousFrame.IsSpare) || (isBonusFrame && !isFirstBowl && previousFrame.IsStrike))
                 {
                     previousFrame.FrameTotal = previousFrame.SubTotal + previousFrame.BonusTotal;
                 }
@@ -87,6 +87,5 @@
         {
             return _playersGame.PlayersFrames[frameNumber - 1];
         }
-
     }
 }
