@@ -131,12 +131,83 @@ namespace BowlingScoring.UnitTests
             bowlMock.Setup(x => x.BowlBall(It.IsAny<Int32>())).Returns(10);
 
             IGame bowlingGame = new Game(bowlMock.Object);
+
             bowlingGame.InitializeGameForPlayer("John");
 
             //Act
             bowlingGame.RunGame();
             //Assert
             bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
+        }
+
+        [Test]
+        public void Verify_Ninety_Game()
+        {
+            //Arrange
+            Int32[] sampleBowls = new Int32[20] { 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0, 9, 0 };
+            Int32 expectedPlayersScore = 90;
+
+            var bowlMock = new Mock<IBowl>();
+
+            CreateMockSequenceForBowls(sampleBowls, bowlMock);
+
+            // Create a mock sequence to specify the bowls to perform
+            IGame bowlingGame = new Game(bowlMock.Object);
+            bowlingGame.InitializeGameForPlayer("John");
+
+            //Act
+            bowlingGame.RunGame();
+
+            //Assert
+            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+        }
+
+        [Test]
+        public void Verify_One_Ninety_Game()
+        {
+            //Arrange
+            Int32[] sampleBowls = new Int32[21] { 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9 };
+            Int32 expectedPlayersScore = 190;
+
+            var bowlMock = new Mock<IBowl>();
+            CreateMockSequenceForBowls(sampleBowls, bowlMock);
+
+            IGame bowlingGame = new Game(bowlMock.Object);
+            bowlingGame.InitializeGameForPlayer("John");
+
+            //Act
+            bowlingGame.RunGame();
+            //Assert
+            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+        }
+
+        [Test]
+        public void Verify_Two_Zero_Two_Game()
+        {
+            //Arrange
+            Int32[] sampleBowls = new Int32[21] { 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 10, 10, 10 };
+            Int32 expectedPlayersScore = 202;
+
+            var bowlMock = new Mock<IBowl>();
+            CreateMockSequenceForBowls(sampleBowls, bowlMock);
+
+            IGame bowlingGame = new Game(bowlMock.Object);
+            bowlingGame.InitializeGameForPlayer("John");
+
+            //Act
+            bowlingGame.RunGame();
+            //Assert
+            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+        }
+
+        private static void CreateMockSequenceForBowls(int[] sampleBowls, Mock<IBowl> bowlMock)
+        {
+            // Create a mock sequence to specify the bowls to perform
+            var sequence = new MockSequence();
+            foreach (Int32 bowl in sampleBowls)
+            {
+                bowlMock.InSequence(sequence).Setup(x => x.BowlBall(It.IsAny<Int32>())).Returns(bowl);
+            }
         }
     }
 }
