@@ -1,25 +1,28 @@
 ﻿namespace BowlingScoring
 {
+    using BowlingScoring.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using BowlingScoring.Interfaces;
+
     public class PlayersGame : IPlayersGame
     {
         public string Name { get; set; }
         public List<IFrame> PlayersFrames { get; set; }
 
-        public Int32 PlayerTotal { 
-            get { 
-                if (PlayersFrames.Count>0)
+        public Int32 PlayerTotal
+        {
+            get
+            {
+                if (PlayersFrames.Count > 0)
                 {
-                    return PlayersFrames.Sum(x => x.FrameTotal);
+                    return PlayersFrames.Where(c => c.FrameNumber <= 10).Sum(x => x.FrameTotal);
                 }
                 else
                 {
                     return 0;
                 }
-               }
+            }
         }
 
         public PlayersGame()
@@ -35,7 +38,6 @@
                 {
                     FrameNumber = i + 1
                 }); ;
-
             }
         }
 
@@ -43,9 +45,9 @@
         {
             PlayersFrames.Add(new Frame()
             {
-                FrameNumber = 11
-            });
+                FrameNumber = 11,
+                IsBonusFrame = true
+            }); ;
         }
-
     }
 }

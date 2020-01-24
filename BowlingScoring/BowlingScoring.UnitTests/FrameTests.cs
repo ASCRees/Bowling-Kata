@@ -1,15 +1,15 @@
 ﻿namespace BowlingScoring.UnitTests
 {
-    using System;
     using BowlingScoring;
     using BowlingScoring.Interfaces;
     using FluentAssertions;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class FrameTests
     {
-        IFrame bowlingFrame;
+        private IFrame bowlingFrame;
 
         [SetUp]
         public void Setup()
@@ -44,7 +44,7 @@
         {
             //Act
             //Assert
-            Assert.Throws<ArgumentOutOfRangeException>(()=>bowlingFrame.FirstPins = 11);
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = 11);
         }
 
         [Test]
@@ -56,7 +56,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = -1);
         }
 
-        [TestCase (Description ="FirstPins")]
+        [TestCase(Description = "FirstPins")]
         [Category("FirstPins")]
         public void Check_Frame_First_Pins_Set_Values_For_Valid_Valid()
         {
@@ -66,7 +66,6 @@
             //Assert
             Assert.AreEqual(bowlingFrame.FirstPins, 9);
         }
-
 
         [Test]
         public void Check_Frame_Is_First_Bowl()
@@ -81,7 +80,7 @@
         public void Check_Frame_Is_Strike()
         {
             //Act
-            bowlingFrame.FirstPins=10;
+            bowlingFrame.FirstPins = 10;
             //Assert
             Assert.IsTrue(bowlingFrame.IsStrike);
         }
@@ -176,14 +175,14 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FrameNumber = 0, "Frame Number can only be between 1 and 11");
         }
 
-        [TestCase(0,null,ExpectedResult = false,TestName ="Frame Is Not Complete. First bowl Only - 0")]
+        [TestCase(0, null, ExpectedResult = false, TestName = "Frame Is Not Complete. First bowl Only - 0")]
         [TestCase(0, 0, ExpectedResult = true, TestName = "Frame Is Complete. Zero on both")]
         [TestCase(null, null, ExpectedResult = false, TestName = "Frame Is Not Complete. Frame has not run")]
         [TestCase(10, null, ExpectedResult = true, TestName = "Frame Is Complete. Strike")]
         [TestCase(9, 1, ExpectedResult = true, TestName = "Frame Is Complete. Spare")]
         [TestCase(5, 4, ExpectedResult = true, TestName = "Frame Is Complete. Nine")]
         [TestCase(3, null, ExpectedResult = false, TestName = "Frame Is Not Complete. First Bowl Only - 3")]
-        public bool Check_Frame_IsComplete(Int32 firstScore,Int32? secondScore)
+        public bool Check_Frame_IsComplete(Int32 firstScore, Int32? secondScore)
         {
             //Act
             bowlingFrame.FirstBowl = true;

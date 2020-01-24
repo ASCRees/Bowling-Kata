@@ -1,22 +1,18 @@
 ﻿using BowlingScoring.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BowlingScoring
 {
-    public class Game:IGame
+    public class Game : IGame
     {
-
         public List<IPlayersGame> PlayersGames { get; set; }
         private IBowl _bowlingBall;
 
         public Game()
         {
             _bowlingBall = new Bowl();
-            PlayersGames = new List<IPlayersGame>();  
+            PlayersGames = new List<IPlayersGame>();
         }
 
         public Game(IBowl bowlingBall)
@@ -40,15 +36,6 @@ namespace BowlingScoring
             playersGame.BuildPlayersFrames();
 
             PlayersGames.Add(playersGame);
-
-        }
-
-        public Int32 RunBowl(Int32 remainingNumPins)
-        {
-
-            var pins = _bowlingBall.BowlBall(remainingNumPins);
-
-            return pins;
         }
 
         public void RunGame()
@@ -62,7 +49,6 @@ namespace BowlingScoring
                     PlayPlayersGo(currentFrameNumber, playerGame);
 
                     AddAndPlayBonusFrame(currentFrameNumber, playerGame);
-
                 }
 
                 currentFrameNumber++;
@@ -105,7 +91,7 @@ namespace BowlingScoring
                 // Add an extra frame
                 playerGame.AddBonusFrame();
 
-                PlayPlayersGo(currentFrameNumber+1, playerGame);
+                PlayPlayersGo(currentFrameNumber + 1, playerGame);
             }
         }
 
@@ -114,7 +100,7 @@ namespace BowlingScoring
             return new Random().Next(0, pinsInPlay);
         }
 
-        public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber )
+        public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber)
         {
             return playerGame.PlayersFrames[currentFrameNumber].IsComplete;
         }

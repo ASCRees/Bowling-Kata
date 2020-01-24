@@ -1,17 +1,17 @@
-using NUnit.Framework;
-using System;
-using System.Linq;
-using BowlingScoring;
 using BowlingScoring.Interfaces;
 using FluentAssertions;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BowlingScoring.UnitTests
 {
     public class ScoreTests
     {
-        IScore bowlingscore;
-        IPlayersGame playersGame = new PlayersGame()
+        private IScore bowlingscore;
+
+        private IPlayersGame playersGame = new PlayersGame()
         {
             Name = "John"
         };
@@ -26,7 +26,7 @@ namespace BowlingScoring.UnitTests
 
         [Test]
         public void Check_If_Score_Exists()
-        {     
+        {
             //Act
             Type scoreType = bowlingscore.GetType();
             //Assert
@@ -39,7 +39,7 @@ namespace BowlingScoring.UnitTests
             //Act
             bowlingscore.CurrentScore = 5;
             //Assert
-            Assert.IsNotNull(bowlingscore.CurrentScore==5);
+            Assert.IsNotNull(bowlingscore.CurrentScore == 5);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace BowlingScoring.UnitTests
 
             //Act
             //Second Frame
-            bowlingscore.SetScore(4, true, firstframeNumber+1);
+            bowlingscore.SetScore(4, true, firstframeNumber + 1);
 
             //Assert
             playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.BonusTotal).FirstOrDefault().Should().Be(4);
@@ -258,6 +258,28 @@ namespace BowlingScoring.UnitTests
         }
 
         [Test]
+        public void Check_First_IsStrike_Second_Is_Strike_And_Third_Five_Check_SecondFrame_Bonus_Is_Five()
+        {
+            //Arrange
+            var firstframeNumber = 1;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //First Frame
+            bowlingscore.SetScore(10, true, firstframeNumber);
+
+            //Act
+            //Second Frame
+            bowlingscore.SetScore(10, true, firstframeNumber + 1);
+
+            //Third Frame
+            bowlingscore.SetScore(5, true, firstframeNumber + 2);
+
+            //Assert
+            playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber + 1).Select(x => x.BonusTotal).FirstOrDefault().Should().Be(5);
+        }
+
+        [Test]
         public void Check_FrameTotal_Set_For_First_and_Second_Bowl_No_Spare()
         {
             //Arrange
@@ -275,5 +297,122 @@ namespace BowlingScoring.UnitTests
             playersGame.PlayersFrames.Where(x => x.FrameNumber == firstframeNumber).Select(x => x.FrameTotal).FirstOrDefault().Should().Be(9);
         }
 
+        [Test]
+        public void Check_Scoring_Bonus_Frame_For_Ninth_After_Strike_In_Ninth_Tenth_Frame_And_Bonus_Frames()
+        {
+            //Arrange
+            var tenthframeNumber = 10;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //Set Frame Data
+            bowlingscore.SetScore(10, true, tenthframeNumber - 1); // Set a strike in the ninth frame
+            bowlingscore.SetScore(10, true, tenthframeNumber); // Set a strike in the tenth frame
+
+            playersGame.AddBonusFrame(); // Add the bonus frame
+
+            //Act
+            bowlingscore.SetScore(10, true, tenthframeNumber + 1);
+
+            //Assert
+            var ninthFrame = playersGame.PlayersFrames
+                .Where(x => x.FrameNumber == tenthframeNumber - 1)
+                .Select(x => new Frame() { FrameNumber = x.FrameNumber, BonusTotal = x.BonusTotal, FrameTotal = x.FrameTotal })
+                .FirstOrDefault();
+
+            ninthFrame.Should().BeEquivalentTo(new Frame()
+            {
+                FrameNumber = 9,
+                BonusTotal = 20,
+                FrameTotal = 30
+            }, options => options.ExcludingMissingMembers());
+        }
+
+        [Test]
+        public void Check_Scoring_Bonus_Frame_Spare_In_Tenth_Frame_And_Then_Bonus_Frame_Of_Five()
+        {
+            //Arrange
+            var tenthframeNumber = 10;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //Set Frame Data
+            bowlingscore.SetScore(9, true, tenthframeNumber); // Set a spare in the tenth frame
+            bowlingscore.SetScore(1, false, tenthframeNumber);
+
+            playersGame.AddBonusFrame(); // Add the bonus frame
+
+            //Act
+            bowlingscore.SetScore(5, true, tenthframeNumber + 1);
+
+            //Assert
+            var ninthFrame = playersGame.PlayersFrames.Where(x => x.FrameNumber == tenthframeNumber).Select(x => new Frame() { FrameNumber = x.FrameNumber, BonusTotal = x.BonusTotal, FrameTotal = x.FrameTotal }).FirstOrDefault();
+
+            ninthFrame.Should().BeEquivalentTo(new Frame()
+            {
+                FrameNumber = 10,
+                BonusTotal = 5,
+                FrameTotal = 15
+            }, options => options.ExcludingMissingMembers());
+        }
+
+        [Test]
+        public void Check_Scoring_Bonus_Frame_Strike_In_Tenth_Frame_And_Check_Bonus_Set_After_Two_Bowls()
+        {
+            //Arrange
+            var tenthframeNumber = 10;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //Set Frame Data
+            bowlingscore.SetScore(10, true, tenthframeNumber); // Set a strike in the tenth frame
+
+            playersGame.AddBonusFrame(); // Add the bonus frame
+
+            //Act
+            bowlingscore.SetScore(9, true, tenthframeNumber + 1);
+            bowlingscore.SetScore(1, false, tenthframeNumber + 1);
+
+            //Assert
+            var tenthFrame = playersGame.PlayersFrames.Where(x => x.FrameNumber == tenthframeNumber).Select(x => new Frame() { FrameNumber = x.FrameNumber, FirstPins = x.FirstPins, BonusTotal = x.BonusTotal, FrameTotal = x.FrameTotal }).FirstOrDefault();
+
+            tenthFrame.Should().BeEquivalentTo(new Frame()
+            {
+                FrameNumber = 10,
+                FirstPins = 10,
+                BonusTotal = 10,
+                FrameTotal = 20
+            }, options => options.ExcludingMissingMembers());
+        }
+
+        [Test]
+        public void Check_Scoring_Bonus_Frame_Strike_In_Ninth_Tenth_And_Bonus_Frames()
+        {
+            //Arrange
+            var tenthframeNumber = 10;
+            playersGame.PlayersFrames = new List<IFrame>();
+            playersGame.BuildPlayersFrames();
+
+            //Set Frame Data
+            bowlingscore.SetScore(10, true, tenthframeNumber - 1); // Set a strike in the tenth frame
+            bowlingscore.SetScore(10, true, tenthframeNumber); // Set a strike in the tenth frame
+
+            playersGame.AddBonusFrame(); // Add the bonus frame
+
+            //Act
+            bowlingscore.SetScore(10, true, tenthframeNumber + 1);
+            bowlingscore.SetScore(10, false, tenthframeNumber + 1);
+
+            //Assert
+            var tenthFrame = playersGame.PlayersFrames.Where(x => x.FrameNumber == tenthframeNumber).Select(x => new Frame() { FrameNumber = x.FrameNumber, FirstPins = x.FirstPins, BonusTotal = x.BonusTotal, FrameTotal = x.FrameTotal }).FirstOrDefault();
+
+            tenthFrame.Should().BeEquivalentTo(new Frame()
+            {
+                FrameNumber = 10,
+                FirstPins = 10,
+                BonusTotal = 20,
+                FrameTotal = 30
+            }, options => options.ExcludingMissingMembers());
+        }
     }
 }

@@ -1,15 +1,15 @@
-﻿using NUnit.Framework;
-using System;
-using BowlingScoring;
-using BowlingScoring.Interfaces;
+﻿using BowlingScoring.Interfaces;
 using FluentAssertions;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace BowlingScoring.UnitTests
 {
     public class PlayersGameTests
     {
-        IPlayersGame playersGame;
+        private IPlayersGame playersGame;
 
         [SetUp]
         public void Setup()
@@ -41,10 +41,10 @@ namespace BowlingScoring.UnitTests
         public void Verify_Players_Set_Of_Frames_Built()
         {
             //Act
-            playersGame.BuildPlayersFrames();;
+            playersGame.BuildPlayersFrames(); ;
 
             //Assert
-            Assert.AreEqual(playersGame.PlayersFrames.Count,10);
+            Assert.AreEqual(playersGame.PlayersFrames.Count, 10);
         }
 
         [Test]
@@ -61,6 +61,25 @@ namespace BowlingScoring.UnitTests
         }
 
         [Test]
+        public void Verify_Players_Add_Bonus_Frame_Check_Contents()
+        {
+            //Arrange
+            playersGame.BuildPlayersFrames();
+
+            //Act
+            playersGame.AddBonusFrame();
+
+            //Assert
+            var bonusFrame = playersGame.PlayersFrames.Where(x => x.FrameNumber == 11).Select(x => new Frame() { FrameNumber = x.FrameNumber, IsBonusFrame = x.IsBonusFrame }).FirstOrDefault();
+
+            bonusFrame.Should().BeEquivalentTo(new Frame()
+            {
+                FrameNumber = 11,
+                IsBonusFrame = true
+            }, options => options.ExcludingMissingMembers());
+        }
+
+        [Test]
         public void Verify_Players_Total_Fifteen()
         {
             //Arrange
@@ -70,15 +89,14 @@ namespace BowlingScoring.UnitTests
             playersGame.PlayersFrames.Add(new Frame()
             {
                 FirstPins = 5,
-                SecondPins=4,
-                FrameTotal=9
+                SecondPins = 4,
+                FrameTotal = 9
             });
 
             //Assert
 
             Assert.AreEqual(playersGame.PlayersFrames.Count, 11);
         }
-
 
         [TestCase]
         public void Verify_Players_Total()
@@ -95,8 +113,6 @@ namespace BowlingScoring.UnitTests
 
             //Assert
             playersGame.PlayerTotal.Should().Be(30);
-
         }
-
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BowlingScoring.Interfaces
 {
@@ -14,6 +11,7 @@ namespace BowlingScoring.Interfaces
         public Int32 PlayerTotal { get; }
 
         public void BuildPlayersFrames();
+
         public void AddBonusFrame();
     }
 }

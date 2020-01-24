@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BowlingScoring.Interfaces;
+﻿using BowlingScoring.Interfaces;
+using System;
 
 namespace BowlingScoring
 {
-    public class Bowl:IBowl
+    public class Bowl : IBowl
     {
         public Int32 BowlBall(Int32 pinsInPlay)
         {
