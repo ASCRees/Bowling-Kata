@@ -5,7 +5,7 @@
 
     public interface IGame
     {
-        public List<IPlayersGame> PlayersGames { get; set; }
+        public List<IPlayersGame> PlayersGamesList { get; set; }
 
         public void InitializeGameForPlayer(string playersName);
 
@@ -13,6 +13,5 @@
 
         public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber);
 
-        public Int32 Bowl(Int32 pinsInPlay);
     }
 }

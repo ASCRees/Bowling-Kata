@@ -131,3 +131,6 @@ BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/System.Configura
 BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/System.Security.Cryptography.ProtectedData.dll
 BowlingScoring/BowlingScoring.UnitTests/bin/Debug/netcoreapp3.1/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
 BowlingScoring/BowlingScoring/StyleCop.Cache
+.vs/
+BowlingScoring/BowlingScoring.UnitTests/obj/
+BowlingScoring/BowlingScoring/obj/

@@ -6,19 +6,13 @@ namespace BowlingScoring
 {
     public class Game : IGame
     {
-        public List<IPlayersGame> PlayersGames { get; set; }
+        public List<IPlayersGame> PlayersGamesList { get; set; }
         private IBowl _bowlingBall;
-
-        public Game()
-        {
-            _bowlingBall = new Bowl();
-            PlayersGames = new List<IPlayersGame>();
-        }
 
         public Game(IBowl bowlingBall)
         {
             _bowlingBall = bowlingBall;
-            PlayersGames = new List<IPlayersGame>();
+            PlayersGamesList = new List<IPlayersGame>();
         }
 
         public void InitializeGameForPlayer(string playersName)
@@ -35,7 +29,7 @@ namespace BowlingScoring
 
             playersGame.BuildPlayersFrames();
 
-            PlayersGames.Add(playersGame);
+            PlayersGamesList.Add(playersGame);
         }
 
         public void RunGame()
@@ -44,7 +38,7 @@ namespace BowlingScoring
 
             while (currentFrameNumber < 10)
             {
-                foreach (IPlayersGame playerGame in PlayersGames)
+                foreach (IPlayersGame playerGame in PlayersGamesList)
                 {
                     PlayPlayersGo(currentFrameNumber, playerGame);
 
@@ -55,21 +49,21 @@ namespace BowlingScoring
             }
         }
 
-        private void PlayPlayersGo(int currentFrameNumber, IPlayersGame playerGame)
+        private void PlayPlayersGo(int currentFrameNumber, IPlayersGame playersGame)
         {
             var pinsStillStanding = 10;
 
             var firstBowl = true;
 
-            while (!playerGame.PlayersFrames[currentFrameNumber].IsComplete)
+            while (!playersGame.PlayersFrames[currentFrameNumber].IsComplete)
             {
-                pinsStillStanding = ScorePlayersBowl(currentFrameNumber, playerGame, pinsStillStanding, firstBowl);
+                pinsStillStanding = ScorePlayersBowl(currentFrameNumber, playersGame, pinsStillStanding, firstBowl);
 
                 firstBowl = false;
             }
         }
 
-        private int ScorePlayersBowl(int currentFrameNumber, IPlayersGame playerGame, int pinsStillStanding, bool firstBowl)
+        private int ScorePlayersBowl(int currentFrameNumber, IPlayersGame playersGame, int pinsStillStanding, bool firstBowl)
         {
             // Take bowl
 
@@ -78,7 +72,7 @@ namespace BowlingScoring
             pinsStillStanding = 10 - bowledPins;
 
             // Score Pins
-            IScore bowlingscore = new Score(playerGame);
+            IScore bowlingscore = new Score(playersGame);
 
             bowlingscore.SetScore(bowledPins, firstBowl, currentFrameNumber + 1);
             return pinsStillStanding;
@@ -93,11 +87,6 @@ namespace BowlingScoring
 
                 PlayPlayersGo(currentFrameNumber + 1, playerGame);
             }
-        }
-
-        public Int32 Bowl(Int32 pinsInPlay)
-        {
-            return new Random().Next(0, pinsInPlay);
         }
 
         public bool CheckPlayerIsComplete(IPlayersGame playerGame, Int32 currentFrameNumber)
