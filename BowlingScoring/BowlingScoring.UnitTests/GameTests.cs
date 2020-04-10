@@ -18,7 +18,7 @@ namespace BowlingScoring.UnitTests
         public void OneTimeSetup()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
         }
 
         [Test]
@@ -43,85 +43,68 @@ namespace BowlingScoring.UnitTests
         public void Check_Game_Set_Player_With_Name()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
             //Act
             bowlingGame.InitializeGameForPlayer("John");
             //Assert
-            bowlingGame.PlayersGames.Should().HaveCount(1, "This should have only one entry");
+            bowlingGame.PlayersGamesList.Should().HaveCount(1, "This should have only one entry");
         }
 
         [Test]
         public void Check_Game_Set_Player_With_Name_Check_Frames()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
             //Act
             bowlingGame.InitializeGameForPlayer("John");
             //Assert
-            bowlingGame.PlayersGames[0].PlayersFrames.Should().HaveCount(10, "This should ten entries");
+            bowlingGame.PlayersGamesList[0].PlayersFrames.Should().HaveCount(10, "This should ten entries");
         }
 
         [Test]
         public void Check_Game_Set_Mulitple_Players()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
             //Act
             bowlingGame.InitializeGameForPlayer("John");
             bowlingGame.InitializeGameForPlayer("Dave");
             bowlingGame.InitializeGameForPlayer("Bob");
             bowlingGame.InitializeGameForPlayer("Steve");
             //Assert
-            bowlingGame.PlayersGames.Should().HaveCount(4, "This should have only one entry");
+            bowlingGame.PlayersGamesList.Should().HaveCount(4, "This should have only one entry");
         }
 
         [Test]
         public void Check_Game_Set_Mulitple_Players_Check_Name()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
             //Act
             bowlingGame.InitializeGameForPlayer("John");
             bowlingGame.InitializeGameForPlayer("Dave");
             bowlingGame.InitializeGameForPlayer("Bob");
             bowlingGame.InitializeGameForPlayer("Steve");
             //Assert
-            bowlingGame.PlayersGames[0].Name.Should().Be("John", "This should be John");
+            bowlingGame.PlayersGamesList[0].Name.Should().Be("John", "This should be John");
         }
 
         [Test]
         public void Check_Game_To_See_If_Player_IsComplete()
         {
             //Arrange
-            bowlingGame = new Game();
+            bowlingGame = new Game(new Bowl());
             bowlingGame.InitializeGameForPlayer("John");
 
             //Act
-            bowlingGame.PlayersGames[0].PlayersFrames[9].FirstBowl = true;
-            bowlingGame.PlayersGames[0].PlayersFrames[9].FirstPins = 4;
-            bowlingGame.PlayersGames[0].PlayersFrames[9].FirstBowl = false;
-            bowlingGame.PlayersGames[0].PlayersFrames[9].SecondPins = 3;
+            bowlingGame.PlayersGamesList[0].PlayersFrames[9].FirstBowl = true;
+            bowlingGame.PlayersGamesList[0].PlayersFrames[9].FirstPins = 4;
+            bowlingGame.PlayersGamesList[0].PlayersFrames[9].FirstBowl = false;
+            bowlingGame.PlayersGamesList[0].PlayersFrames[9].SecondPins = 3;
             //Assert
-            bowlingGame.CheckPlayerIsComplete(bowlingGame.PlayersGames[0], 9);
+            bowlingGame.CheckPlayerIsComplete(bowlingGame.PlayersGamesList[0], 9);
         }
 
-        [TestCase(10)]
-        public void Verify_Bowl_Does_Not_Return_More_Than_Available_Pins(Int32 availablePins)
-        {
-            //Act
-            //Assert
-            bowlingGame.Bowl(availablePins).Should().BeLessOrEqualTo(availablePins);
-        }
-
-        [TestCase(10, TestName = "Verify_Bowl_Returns_Between_Zero_And. 10 Pins")]
-        [TestCase(5, TestName = "Verify_Bowl_Returns_Between_Zero_And. 5 Pins")]
-        [TestCase(0, TestName = "Verify_Bowl_Returns_Between_Zero_And. 0 Pins")]
-        public void Verify_Bowl_Returns_Between_Zero_and_X_Pins(Int32 availablePins)
-        {
-            //Act
-            //Assert
-            bowlingGame.Bowl(availablePins).Should().BeInRange(0, availablePins, "because you can only knock down " + availablePins + " pins");
-        }
 
         [Test]
         public void Verify_Perfect_Game()
@@ -137,7 +120,7 @@ namespace BowlingScoring.UnitTests
             //Act
             bowlingGame.RunGame();
             //Assert
-            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
+            bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(300);
         }
 
         [Test]
@@ -159,7 +142,7 @@ namespace BowlingScoring.UnitTests
             bowlingGame.RunGame();
 
             //Assert
-            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+            bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
         }
 
         [Test]
@@ -178,7 +161,7 @@ namespace BowlingScoring.UnitTests
             //Act
             bowlingGame.RunGame();
             //Assert
-            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+            bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
         }
 
         [Test]
@@ -197,7 +180,7 @@ namespace BowlingScoring.UnitTests
             //Act
             bowlingGame.RunGame();
             //Assert
-            bowlingGame.PlayersGames.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+            bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
         }
 
         private static void CreateMockSequenceForBowls(int[] sampleBowls, Mock<IBowl> bowlMock)

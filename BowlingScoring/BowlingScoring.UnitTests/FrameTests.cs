@@ -56,7 +56,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = -1);
         }
 
-        [TestCase(Description = "FirstPins")]
+        [Test]
         [Category("FirstPins")]
         public void Check_Frame_First_Pins_Set_Values_For_Valid_Valid()
         {
@@ -170,7 +170,6 @@
         public void Check_Frame_Number_In_Range()
         {
             //Act
-
             //Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FrameNumber = 0, "Frame Number can only be between 1 and 11");
         }
