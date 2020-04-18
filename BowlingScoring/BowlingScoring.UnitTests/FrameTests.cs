@@ -136,7 +136,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = -1, "Score can only be between 0 and 10");
         }
 
-        [TestCase(TestName = "SecondPins. Veriy 2nd pins set for valid value.")]
+        [TestCase(TestName = "SecondPins. Verify 2nd pins set for valid value.")]
         public void Check_Frame_Second_Pins_Set_Values_For_Valid_Valid()
         {
             //Act
@@ -144,6 +144,26 @@
 
             //Assert
             Assert.AreEqual(bowlingFrame.SecondPins, 9);
+        }
+
+        [TestCase(TestName = "SecondPins. Verify setting 2nd pin when FirstBowl is true throws error")]
+        public void Check_Frame_Second_Pins_Errors_When_FirstBowl_True()
+        {
+            //Act
+            bowlingFrame.FirstBowl = true;
+
+            //Assert
+            Assert.Throws<ArgumentException>(()=>bowlingFrame.SecondPins=9, "Its not the second bowl");
+        }
+
+        [TestCase(TestName = "SecondPins. Verify firstpins + secondpins throws an error if greater than 10")]
+        public void Check_Frame_FirstPins_Plus_SecondPins_Greater_Than_10_Errors()
+        {
+            //Act
+            bowlingFrame.FirstPins = 9;
+
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = 2, "Total Score for the frame cannot be greater than 10");
         }
 
         [Test]
