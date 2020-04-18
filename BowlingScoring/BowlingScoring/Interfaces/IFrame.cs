@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace BowlingScoring.Interfaces
+﻿namespace BowlingScoring.Interfaces
 {
+    using System;
     public interface IFrame
     {
         public Int32 FrameNumber { get; set; }

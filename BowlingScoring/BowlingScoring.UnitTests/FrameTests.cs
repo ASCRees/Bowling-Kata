@@ -12,7 +12,7 @@
         private IFrame bowlingFrame;
 
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
             //Arrange
             bowlingFrame = new Frame();
@@ -28,8 +28,7 @@
             Assert.IsNotNull(frameType);
         }
 
-        [Test]
-        [Category("FirstPins")]
+        [TestCase (TestName = "FirstPins. Check first score exists for valid score.")]
         public void Check_Frame_First_Score_Value_Exists()
         {
             //Act
@@ -38,8 +37,7 @@
             Assert.IsTrue(bowlingFrame.FirstPins == 7);
         }
 
-        [Test]
-        [Category("FirstPins")]
+        [TestCase (TestName="FirstPins. Check exception thrown for pins greater than 10")]
         public void Check_Frame_First_Score_Errors_For_Values_Greater_Than_Ten()
         {
             //Act
@@ -47,8 +45,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = 11);
         }
 
-        [Test]
-        [Category("FirstPins")]
+        [TestCase(TestName = "FirstPins. Check exception thrown for pins less than 0")]
         public void Check_Frame_First_Score_Errors_For_Values_Less_Than_Zero()
         {
             //Act
@@ -56,9 +53,8 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.FirstPins = -1);
         }
 
-        [Test]
-        [Category("FirstPins")]
-        public void Check_Frame_First_Pins_Set_Values_For_Valid_Valid()
+        [TestCase(TestName = "FirstPins. Set Values for 9 pins")]
+        public void Check_Frame_First_Pins_Set_Values_For_Valid()
         {
             //Act
             bowlingFrame.FirstPins = 9;
@@ -116,8 +112,7 @@
             Assert.IsFalse(bowlingFrame.IsSpare);
         }
 
-        [Test]
-        [Category("SecondPins")]
+        [TestCase (TestName = "SecondPins. Verify 2nd score can be set")]
         public void Check_Frame_Second_Score_Can_Be_Set()
         {
             //Act
@@ -125,8 +120,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = 11);
         }
 
-        [Test]
-        [Category("SecondPins")]
+        [TestCase (TestName = "SecondPins. Veriy error thrown for value greater than 10")]
         public void Check_Frame_Second_Score_Errors_For_Values_Greater_Than_Ten()
         {
             //Act
@@ -134,8 +128,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = 11, "Score can only be between 0 and 10");
         }
 
-        [Test]
-        [Category("SecondPins")]
+        [TestCase(TestName = "SecondPins. Veriy error thrown for value less than 0")]
         public void Check_Frame_Second_Score_Errors_For_Values_Less_Than_Zero()
         {
             //Act
@@ -143,8 +136,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => bowlingFrame.SecondPins = -1, "Score can only be between 0 and 10");
         }
 
-        [Test]
-        [Category("SecondPins")]
+        [TestCase(TestName = "SecondPins. Veriy 2nd pins set for valid value.")]
         public void Check_Frame_Second_Pins_Set_Values_For_Valid_Valid()
         {
             //Act

@@ -12,8 +12,8 @@
         private IBowl bowlball;
 
 
-        [SetUp]
-        public void Setup()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             //Arrange
             bowlball = new Bowl();

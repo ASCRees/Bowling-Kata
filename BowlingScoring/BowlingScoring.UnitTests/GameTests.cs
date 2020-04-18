@@ -1,13 +1,12 @@
-﻿using FluentAssertions;
-using Moq;
-using System.Linq;
-
-namespace BowlingScoring.UnitTests
+﻿namespace BowlingScoring.UnitTests
 {
+    using System;
+    using System.Linq;
     using BowlingScoring;
     using BowlingScoring.Interfaces;
+    using FluentAssertions;
+    using Moq;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class GameTests
@@ -183,6 +182,24 @@ namespace BowlingScoring.UnitTests
             bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
         }
 
+        [Test]
+        public void Verify_Gutter_Game_Is_Zero()
+        {
+            //Arrange
+            Int32[] sampleBowls = new Int32[21] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            Int32 expectedPlayersScore = 0;
+
+            var bowlMock = new Mock<IBowl>();
+            CreateMockSequenceForBowls(sampleBowls, bowlMock);
+
+            IGame bowlingGame = new Game(bowlMock.Object);
+            bowlingGame.InitializeGameForPlayer("John");
+
+            //Act
+            bowlingGame.RunGame();
+            //Assert
+            bowlingGame.PlayersGamesList.Where(x => x.Name == "John").Select(c => c.PlayerTotal).FirstOrDefault().Should().Be(expectedPlayersScore);
+        }
         private static void CreateMockSequenceForBowls(int[] sampleBowls, Mock<IBowl> bowlMock)
         {
             // Create a mock sequence to specify the bowls to perform
