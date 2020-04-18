@@ -1,9 +1,9 @@
-﻿using BowlingScoring.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace BowlingScoring
+﻿namespace BowlingScoring
 {
+    using System;
+    using System.Collections.Generic;
+    using BowlingScoring.Interfaces;
+
     public class Game : IGame
     {
         public List<IPlayersGame> PlayersGamesList { get; set; }

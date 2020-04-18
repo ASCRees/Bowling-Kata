@@ -18,41 +18,23 @@
         {
             IFrame currentFrame = GetFrameForPlayer(frameNumber);
 
-            switch (isFirstBowl)
+            if (frameNumber > 1)
             {
-                case true:
-                    currentFrame.FirstPins = currScore;
+                UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber - 1), currentFrame.IsBonusFrame);
+            }
 
-                    // If the frame is at least the 2nd frame check the previous frame
-                    // if previous frame was a spare update the bonustotal with the currscore
-                    // if previous frame was a strike update the bonustotal with the currscore
-                    // If this is at least the 3rd frame then check the frame prior to that to
-                    // see if it was a strike also then update with the currscore
-
-                    if (frameNumber > 1)
-                    {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber - 1), currentFrame.IsBonusFrame);
-                    }
-
-                    break;
-
-                case false:
-                    currentFrame.SecondPins = currScore;
-                    // If the current frame is at least the 2nd frame check the previous frame if it was a strike
-                    // update the total with the sub-total from this frame
-
-                    if (frameNumber > 1)
-                    {
-                        UpdatePreviousFrame(currScore, frameNumber, isFirstBowl, GetFrameForPlayer(frameNumber - 1), currentFrame.IsBonusFrame);
-                    }
-
-                    if (!currentFrame.IsSpare)
-                    {
-                        currentFrame.FrameTotal = currentFrame.SubTotal;
-                    }
-
-                    break;
-            };
+            if (isFirstBowl)
+            {
+                currentFrame.FirstPins = currScore;
+            }
+            else
+            {
+                currentFrame.SecondPins = currScore;
+                if (!currentFrame.IsSpare)
+                {
+                    currentFrame.FrameTotal = currentFrame.SubTotal;
+                }
+            }
 
             CurrentScore = currScore;
         }

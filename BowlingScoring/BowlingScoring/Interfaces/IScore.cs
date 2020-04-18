@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace BowlingScoring.Interfaces
+﻿namespace BowlingScoring.Interfaces
 {
+    using System;
     public interface IScore
     {
         public int CurrentScore { get; set; }

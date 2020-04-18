@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BowlingScoring.Interfaces
+﻿namespace BowlingScoring.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
     public interface IPlayersGame
     {
         public string Name { get; set; }

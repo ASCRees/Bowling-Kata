@@ -1,12 +1,12 @@
-using BowlingScoring.Interfaces;
-using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace BowlingScoring.UnitTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using BowlingScoring.Interfaces;
+    using FluentAssertions;
+    using NUnit.Framework;
+
     public class ScoreTests
     {
         private IScore bowlingscore;
@@ -16,8 +16,8 @@ namespace BowlingScoring.UnitTests
             Name = "John"
         };
 
-        [SetUp]
-        public void Setup()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             playersGame.BuildPlayersFrames();
             //Arrange

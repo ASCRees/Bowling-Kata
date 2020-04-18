@@ -1,12 +1,11 @@
-﻿using BowlingScoring.Interfaces;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Linq;
-
-namespace BowlingScoring.UnitTests
+﻿namespace BowlingScoring.UnitTests
 {
+    using System;
+    using System.Linq;
+    using BowlingScoring.Interfaces;
+    using FluentAssertions;
+    using NUnit.Framework;
+
     public class PlayersGameTests
     {
         private IPlayersGame playersGame;
@@ -98,7 +97,7 @@ namespace BowlingScoring.UnitTests
             Assert.AreEqual(playersGame.PlayersFrames.Count, 11);
         }
 
-        [TestCase]
+        [Test]
         public void Verify_Players_Total()
         {
             //Arrange
