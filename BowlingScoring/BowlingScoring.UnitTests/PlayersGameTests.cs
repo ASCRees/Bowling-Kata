@@ -112,5 +112,14 @@
             //Assert
             playersGame.PlayerTotal.Should().Be(30);
         }
+
+        [Test]
+        public void Verify_PlayersTotal_Is_Zero_When_NoFrames_Setup()
+        {
+            //Arrange
+            //Act
+            //Assert
+            playersGame.PlayerTotal.Should().Be(0);
+        }
     }
 }
